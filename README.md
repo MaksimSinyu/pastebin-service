@@ -47,6 +47,8 @@ The Pastebin Service is a fully microservice-based application designed to store
 
 ### Build and Run
 
+**Important**: Before running the application, ensure that you have created a bucket in MinIO with public access.
+
 1. **Build the Application**:
    ```sh
    mvn clean package -DskipTests
