@@ -63,5 +63,3 @@ The Pastebin Service is a fully microservice-based application designed to store
 - Run tests with:
   ```sh
   mvn test
-
-
