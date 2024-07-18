@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+hash:
+  generator:
+    url: http://hash-generator:8081/generate-hash
+
+minio:
+  bucket-name: testbucket

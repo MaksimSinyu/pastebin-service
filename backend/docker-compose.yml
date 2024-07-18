@@ -1,0 +1,85 @@
+version: '3.8'
+services:
+  api-service:
+    build:
+      context: ./ApiService
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - hash-generator
+      - db
+      - minio
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/pastebin
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - HASH_GENERATOR_URL=http://hash-generator:8081
+      - MINIO_URL=http://minio:9000
+      - TERM=xterm-256color
+    tty: true
+    networks:
+      - pastebin-network
+
+  api-service-tests:
+    build:
+      context: ./ApiService
+      dockerfile: Dockerfile.tests
+    depends_on:
+      - hash-generator
+      - db
+      - minio
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/pastebin
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - HASH_GENERATOR_URL=http://hash-generator:8081
+      - MINIO_URL=http://minio:9000
+      - TERM=xterm-256color
+      - MAVEN_OPTS=-Djansi.force=true
+    tty: true
+    command: mvn test -Dstyle.color=always
+    networks:
+      - pastebin-network
+
+  hash-generator:
+    build:
+      context: ./HashGenerator
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - TERM=xterm-256color
+    tty: true
+    networks:
+      - pastebin-network
+
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: pastebin
+      TERM: xterm-256color
+    tty: true
+    networks:
+      - pastebin-network
+
+  minio:
+    image: minio/minio
+    command: server /data
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      TERM: xterm-256color
+    ports:
+      - "9000:9000"
+    tty: true
+    networks:
+      - pastebin-network
+
+networks:
+  pastebin-network:
+    driver: bridge
