@@ -9,8 +9,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -29,12 +29,13 @@ class PasteControllerTest {
         String hash = "testHash";
         Paste paste = new Paste(hash, data);
 
-        when(pasteService.createPaste(data)).thenReturn(paste);
+        when(pasteService.createPaste(anyString())).thenReturn(paste);
 
         mockMvc.perform(post("/paste")
-                        .contentType(MediaType.TEXT_PLAIN)
-                        .content(data))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"data\": \"" + data + "\"}"))
                 .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.hash").value(hash))
                 .andExpect(jsonPath("$.data").value(data));
     }

@@ -2,7 +2,7 @@ version: '3.8'
 services:
   api-service:
     build:
-      context: ./ApiService
+      context: ./backend/ApiService
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
@@ -15,8 +15,11 @@ services:
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
-      - HASH_GENERATOR_URL=http://hash-generator:8081
+      - HASH_GENERATOR_URL=http://hash-generator:8080/generate-hash
       - MINIO_URL=http://minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+      - MINIO_BUCKET_NAME=pastebin
       - TERM=xterm-256color
     tty: true
     networks:
@@ -24,7 +27,7 @@ services:
 
   api-service-tests:
     build:
-      context: ./ApiService
+      context: ./backend/ApiService
       dockerfile: Dockerfile.tests
     depends_on:
       - hash-generator
@@ -35,7 +38,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
-      - HASH_GENERATOR_URL=http://hash-generator:8081
+      - HASH_GENERATOR_URL=http://hash-generator:8080/generate-hash
       - MINIO_URL=http://minio:9000
       - TERM=xterm-256color
       - MAVEN_OPTS=-Djansi.force=true
@@ -46,10 +49,10 @@ services:
 
   hash-generator:
     build:
-      context: ./HashGenerator
+      context: ./backend/HashGenerator
       dockerfile: Dockerfile
     ports:
-      - "8081:8081"
+      - "8081:8080"
     environment:
       - TERM=xterm-256color
     tty: true
@@ -69,13 +72,16 @@ services:
 
   minio:
     image: minio/minio
-    command: server /data
+    command: server /data --console-address ":9001"
     environment:
-      MINIO_ACCESS_KEY: minioadmin
-      MINIO_SECRET_KEY: minioadmin
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
       TERM: xterm-256color
     ports:
       - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
     tty: true
     networks:
       - pastebin-network
@@ -83,3 +89,6 @@ services:
 networks:
   pastebin-network:
     driver: bridge
+
+volumes:
+  minio-data:

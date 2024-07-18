@@ -7,7 +7,7 @@ spring:
 
 hash:
   generator:
-    url: http://hash-generator:8081/generate-hash
+    url: http://hash-generator:8080/generate-hash
 
 minio:
   bucket-name: testbucket

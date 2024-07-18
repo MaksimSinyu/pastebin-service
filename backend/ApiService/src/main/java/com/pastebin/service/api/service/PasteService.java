@@ -43,6 +43,8 @@ public class PasteService {
         try {
             minioClient.putObject(bucketName, hash, data.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
+            System.err.println("Failed to save paste to MinIO. Error: " + e.getMessage());
+            e.printStackTrace();
             throw new RuntimeException("Failed to save paste", e);
         }
     }
