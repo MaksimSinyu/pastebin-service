@@ -7,4 +7,4 @@ COPY src src
 
 RUN mvn clean install -DskipTests=true
 
-CMD ["mvn", "test", "-DskipTests=false"]
+CMD ["mvn", "test", "-Dspring.profiles.active=test"]

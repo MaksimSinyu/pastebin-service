@@ -1,51 +1,41 @@
 package com.pastebin.service.api.service;
 
-import com.pastebin.service.api.client.MinioClient;
+import com.pastebin.service.api.exception.PasteNotFoundException;
 import com.pastebin.service.api.model.Paste;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class PasteService {
-
-    @Value("${hash.generator.url}")
-    private String hashGeneratorUrl;
-
-    @Value("${minio.bucket-name}")
-    private String bucketName;
-
-    private final RestTemplate restTemplate;
-    private final MinioClient minioClient;
+    private final StorageService storageService;
+    private final CacheService cacheService;
+    private final HashGeneratorClient hashGeneratorClient;
 
     public Paste getPaste(String hash) {
+        Paste cachedPaste = cacheService.get(hash);
+        if (cachedPaste != null) {
+            return cachedPaste;
+        }
+
         try {
-            byte[] data = minioClient.getObject(bucketName, hash);
-            return new Paste(hash, new String(data, StandardCharsets.UTF_8));
+            byte[] data = storageService.getObject(hash);
+            Paste paste = new Paste(hash, new String(data, StandardCharsets.UTF_8));
+            cacheService.set(hash, paste, 1, TimeUnit.HOURS);
+            return paste;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to get paste", e);
+            throw new PasteNotFoundException("Paste not found: " + hash);
         }
     }
 
     public Paste createPaste(String data) {
-        String hash = restTemplate.postForObject(hashGeneratorUrl, data, String.class);
-
-        saveToMinIO(hash, data);
-
-        return new Paste(hash, data);
-    }
-
-    private void saveToMinIO(String hash, String data) {
-        try {
-            minioClient.putObject(bucketName, hash, data.getBytes(StandardCharsets.UTF_8));
-        } catch (Exception e) {
-            System.err.println("Failed to save paste to MinIO. Error: " + e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException("Failed to save paste", e);
-        }
+        String hash = hashGeneratorClient.generateHash(data);
+        storageService.saveObject(hash, data.getBytes(StandardCharsets.UTF_8));
+        Paste paste = new Paste(hash, data);
+        cacheService.set(hash, paste, 1, TimeUnit.HOURS);
+        return paste;
     }
 }

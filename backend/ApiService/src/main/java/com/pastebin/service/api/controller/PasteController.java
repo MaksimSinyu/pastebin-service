@@ -1,7 +1,10 @@
 package com.pastebin.service.api.controller;
 
+import com.pastebin.service.api.exception.PasteNotFoundException;
+import com.pastebin.service.api.exception.StorageException;
 import com.pastebin.service.api.model.Paste;
 import com.pastebin.service.api.service.PasteService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,10 +15,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/paste")
+@RequiredArgsConstructor
 public class PasteController {
-
-    @Autowired
-    private PasteService pasteService;
+    private final PasteService pasteService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Paste> createPaste(@RequestBody Map<String, String> payload) {
@@ -23,26 +25,23 @@ public class PasteController {
         if (data == null || data.trim().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        try {
-            Paste paste = pasteService.createPaste(data);
-            return ResponseEntity.ok(paste);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        Paste paste = pasteService.createPaste(data);
+        return ResponseEntity.ok(paste);
     }
 
     @GetMapping(value = "/{hash}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Paste> getPaste(@PathVariable String hash) {
-        try {
-            Paste paste = pasteService.getPaste(hash);
-            if (paste != null) {
-                return ResponseEntity.ok(paste);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        Paste paste = pasteService.getPaste(hash);
+        return ResponseEntity.ok(paste);
+    }
+
+    @ExceptionHandler(PasteNotFoundException.class)
+    public ResponseEntity<String> handlePasteNotFound(PasteNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(StorageException.class)
+    public ResponseEntity<String> handleStorageException(StorageException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
     }
 }

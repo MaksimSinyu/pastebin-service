@@ -1,14 +1,14 @@
 package com.pastebin.service.api.service;
 
-import com.pastebin.service.api.client.MinioClient;
+import com.pastebin.service.api.config.TestRedisConfiguration;
 import com.pastebin.service.api.model.Paste;
+import com.pastebin.service.api.service.impl.MinioStorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -18,32 +18,25 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@Import(TestRedisConfiguration.class)
 class PasteServiceTest {
 
     @MockBean
-    private RestTemplate restTemplate;
+    private StorageService storageService;
 
     @MockBean
-    private MinioClient minioClient;
+    private HashGeneratorClient hashGeneratorClient;
 
     @Autowired
     private PasteService pasteService;
 
-    @Value("${hash.generator.url}")
-    private String hashGeneratorUrl;
-
-    @Value("${minio.bucket-name}")
-    private String bucketName;
-
     @Test
-    void createPaste_shouldReturnPasteWithHashAndData() throws Exception {
+    void createPaste_shouldReturnPasteWithHashAndData() {
         String data = "Test data";
         String hash = "testHash";
 
-        when(restTemplate.postForObject(eq(hashGeneratorUrl), eq(data), eq(String.class)))
-                .thenReturn(hash);
-
-        doNothing().when(minioClient).putObject(eq(bucketName), eq(hash), any(byte[].class));
+        when(hashGeneratorClient.generateHash(eq(data))).thenReturn(hash);
+        doNothing().when(storageService).saveObject(eq(hash), any(byte[].class));
 
         Paste paste = pasteService.createPaste(data);
 
@@ -51,7 +44,7 @@ class PasteServiceTest {
         assertEquals(hash, paste.getHash());
         assertEquals(data, paste.getData());
 
-        verify(restTemplate).postForObject(eq(hashGeneratorUrl), eq(data), eq(String.class));
-        verify(minioClient).putObject(eq(bucketName), eq(hash), any(byte[].class));
+        verify(hashGeneratorClient).generateHash(eq(data));
+        verify(storageService).saveObject(eq(hash), any(byte[].class));
     }
 }
