@@ -26,12 +26,15 @@ class PasteServiceTest {
 
     @MockBean
     private HashGeneratorClient hashGeneratorClient;
+    @MockBean
+    private MetricsClient metricsClient;
 
     @Autowired
     private PasteService pasteService;
 
     @Test
     void createPaste_shouldReturnPasteWithHashAndData() {
+        metricsClient.incrementPasteCreated();
         String data = "Test data";
         String hash = "testHash";
 

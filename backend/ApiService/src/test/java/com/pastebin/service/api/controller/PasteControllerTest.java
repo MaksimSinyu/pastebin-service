@@ -1,5 +1,6 @@
 package com.pastebin.service.api.controller;
 
+import com.pastebin.service.api.service.MetricsClient;
 import com.pastebin.service.api.service.PasteService;
 import com.pastebin.service.api.model.Paste;
 import org.junit.jupiter.api.Test;
@@ -22,9 +23,12 @@ class PasteControllerTest {
 
     @MockBean
     private PasteService pasteService;
+    @MockBean
+    private MetricsClient metricsClient;
 
     @Test
     void createPaste_shouldReturnCreatedPaste() throws Exception {
+        metricsClient.incrementPasteViewed();
         String data = "Test data";
         String hash = "testHash";
         Paste paste = new Paste(hash, data);

@@ -9,6 +9,7 @@ services:
     depends_on:
       - api-service
       - hash-generator
+      - metrics-service
     networks:
       - pastebin-network
 
@@ -79,11 +80,20 @@ services:
       - pastebin-network
 
   redis:
-      image: redis:alpine
-      ports:
-        - "6379:6379"
-      networks:
-        - pastebin-network
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - pastebin-network
+
+  metrics-service:
+    build:
+      context: ./backend/MetricsService
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    networks:
+      - pastebin-network
 
 networks:
   pastebin-network:

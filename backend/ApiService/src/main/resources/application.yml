@@ -1,3 +1,16 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    prometheus:
+      enabled: true
+
 spring:
   redis:
     host: redis
@@ -17,6 +30,10 @@ spring:
 hash:
   generator:
     url: http://hash-generator:8080
+
+metrics:
+  service:
+    url: http://metrics-service:8081
 
 minio:
   url: http://minio:9000
