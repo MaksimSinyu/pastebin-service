@@ -52,7 +52,7 @@
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     var response = JSON.parse(xhr.responseText);
-                    window.location.href = "http://localhost/api/paste/" + response.hash; // Перенаправление на созданную пасту
+                    window.location.href = "http://localhost/api/paste/" + response.hash;
                 } else {
                     console.error("Failed to upload content:", xhr.status, xhr.responseText);
                 }
