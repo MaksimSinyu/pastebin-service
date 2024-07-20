@@ -13,7 +13,6 @@ The Pastebin Service is a robust, scalable microservice-based application design
 - **PostgreSQL Database**: Robust relational database for persistent data storage.
 - **Nginx Load Balancer**: Efficiently distributes incoming traffic across multiple service instances.
 - **Docker Containerization**: Ensures consistent environments across development, testing, and production.
-- **Kubernetes Orchestration**: Manages containerized applications for improved scalability and resource utilization.
 - **Prometheus Metrics**: Comprehensive system monitoring with custom and built-in metrics.
 - **CORS Configuration**: Configured to allow cross-origin requests for improved client-side integration.
 - **Spring Cloud OpenFeign**: Simplifies HTTP API clients for inter-service communication.
