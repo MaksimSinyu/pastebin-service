@@ -80,11 +80,7 @@ The Pastebin Service is a robust, scalable microservice-based application design
 
 ### Build and Run
 
-1. **Build the Application**:
-   ```sh
-   mvn clean package -DskipTests
-
-2. **Run with Docker**:
+1. **Build and Run with Docker**:
    ```sh
    docker-compose up --build
 
