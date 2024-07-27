@@ -1,6 +1,6 @@
 package com.pastebin.service.api.service.impl;
 
-import com.pastebin.service.api.model.Paste;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pastebin.service.api.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -9,15 +9,20 @@ import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 public class RedisCacheService implements CacheService {
-    private final RedisTemplate<String, Paste> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final ObjectMapper objectMapper;
 
     @Override
-    public void set(String key, Paste paste, long expirationTime, TimeUnit timeUnit) {
-        redisTemplate.opsForValue().set(key, paste, expirationTime, timeUnit);
+    public <T> void set(String key, T value, long expirationTime, TimeUnit timeUnit) {
+        redisTemplate.opsForValue().set(key, value, expirationTime, timeUnit);
     }
 
     @Override
-    public Paste get(String key) {
-        return redisTemplate.opsForValue().get(key);
+    public <T> T get(String key, Class<T> type) {
+        Object value = redisTemplate.opsForValue().get(key);
+        if (value == null) {
+            return null;
+        }
+        return objectMapper.convertValue(value, type);
     }
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dc1986a2-70f0-4bd3-a018-39277f761afc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/config/JacksonConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/repository/PasteRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/service/impl/PasteServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/specification/PasteSpecification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MetricsService/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ApiService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ApiService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/ApiServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/ApiServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/controller/PasteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/controller/PasteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/model/Paste.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/model/Paste.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/service/PasteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ApiService/src/main/java/com/pastebin/service/api/service/PasteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ApiService/src/test/java/com/pastebin/service/api/config/TestRedisConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ApiService/src/test/java/com/pastebin/service/api/config/TestRedisConfiguration.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2jQx4oi5wfnj8CGQU391jqrKoT3" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="HashGenerator" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="HashGenerator" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dc1986a2-70f0-4bd3-a018-39277f761afc" name="Changes" comment="" />
+      <created>1721332913644</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1721332913644</updated>
+    </task>
+    <servers />
+  </component>
+</project>

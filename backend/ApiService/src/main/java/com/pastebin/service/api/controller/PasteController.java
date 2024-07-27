@@ -5,7 +5,11 @@ import com.pastebin.service.api.exception.StorageException;
 import com.pastebin.service.api.model.Paste;
 import com.pastebin.service.api.service.PasteService;
 import lombok.RequiredArgsConstructor;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +47,16 @@ public class PasteController {
     @ExceptionHandler(StorageException.class)
     public ResponseEntity<String> handleStorageException(StorageException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<Paste>> searchPastes(
+            @RequestParam(required = false) String language,
+            @RequestParam(required = false) Boolean isPublic,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) DateTime createdAfter,
+            @RequestParam(required = false) String titleContains,
+            Pageable pageable) {
+        Page<Paste> pastes = pasteService.searchPastes(language, isPublic, createdAfter, titleContains, pageable);
+        return ResponseEntity.ok(pastes);
     }
 }

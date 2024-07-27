@@ -1,8 +1,8 @@
 package com.pastebin.service.api.service;
 
+import com.pastebin.service.api.config.RedisConfig;
 import com.pastebin.service.api.config.TestRedisConfiguration;
 import com.pastebin.service.api.model.Paste;
-import com.pastebin.service.api.service.impl.MinioStorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,19 +18,18 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@Import(TestRedisConfiguration.class)
+@Import({TestRedisConfiguration.class, RedisConfig.class})
 class PasteServiceTest {
-
     @MockBean
     private StorageService storageService;
-
     @MockBean
     private HashGeneratorClient hashGeneratorClient;
     @MockBean
     private MetricsClient metricsClient;
-
     @Autowired
     private PasteService pasteService;
+    @MockBean
+    private CacheService cacheService;
 
     @Test
     void createPaste_shouldReturnPasteWithHashAndData() {
@@ -39,7 +38,7 @@ class PasteServiceTest {
         String hash = "testHash";
 
         when(hashGeneratorClient.generateHash(eq(data))).thenReturn(hash);
-        doNothing().when(storageService).saveObject(eq(hash), any(byte[].class));
+        doNothing().when(cacheService).set(anyString(), any(Paste.class), anyLong(), any());
 
         Paste paste = pasteService.createPaste(data);
 
@@ -49,5 +48,6 @@ class PasteServiceTest {
 
         verify(hashGeneratorClient).generateHash(eq(data));
         verify(storageService).saveObject(eq(hash), any(byte[].class));
+        verify(cacheService).set(eq(hash), eq(paste), anyLong(), any());
     }
 }

@@ -1,0 +1,3 @@
+com\pastebin\service\api\config\TestRedisConfiguration.class
+com\pastebin\service\api\controller\PasteControllerTest.class
+com\pastebin\service\api\service\PasteServiceTest.class

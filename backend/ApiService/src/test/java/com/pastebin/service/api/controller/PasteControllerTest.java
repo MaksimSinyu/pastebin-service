@@ -1,12 +1,16 @@
 package com.pastebin.service.api.controller;
 
+import com.pastebin.service.api.config.RedisConfig;
 import com.pastebin.service.api.service.MetricsClient;
 import com.pastebin.service.api.service.PasteService;
+import com.pastebin.service.api.config.TestRedisConfiguration;
 import com.pastebin.service.api.model.Paste;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -16,6 +20,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PasteController.class)
+@AutoConfigureDataJpa
+@Import({TestRedisConfiguration.class, RedisConfig.class})
 class PasteControllerTest {
 
     @Autowired
@@ -28,7 +34,6 @@ class PasteControllerTest {
 
     @Test
     void createPaste_shouldReturnCreatedPaste() throws Exception {
-        metricsClient.incrementPasteViewed();
         String data = "Test data";
         String hash = "testHash";
         Paste paste = new Paste(hash, data);

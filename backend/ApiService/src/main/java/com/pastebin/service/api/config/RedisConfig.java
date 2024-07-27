@@ -1,6 +1,8 @@
 package com.pastebin.service.api.config;
 
-import com.pastebin.service.api.model.Paste;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +11,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
@@ -28,12 +30,20 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, Paste> redisTemplate(@Qualifier("redisConnectionFactory") RedisConnectionFactory connectionFactory) {
-        RedisTemplate<String, Paste> template = new RedisTemplate<>();
+    public ObjectMapper redisObjectMapper() {
+        return JsonMapper.builder()
+                .addModule(new JodaModule())
+                .build();
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate(@Qualifier("redisConnectionFactory") RedisConnectionFactory connectionFactory, ObjectMapper redisObjectMapper) {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
-        Jackson2JsonRedisSerializer<Paste> serializer = new Jackson2JsonRedisSerializer<>(Paste.class);
-        template.setValueSerializer(serializer);
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer(redisObjectMapper));
+        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer(redisObjectMapper));
+        template.afterPropertiesSet();
         return template;
     }
 }

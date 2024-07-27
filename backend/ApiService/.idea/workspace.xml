@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7f11c363-2ab5-4850-ac6d-c8c599d27e02" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/converter/JodaDateTimeConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/repository/PasteRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/service/impl/PasteServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/specification/PasteSpecification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MetricsService/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/ApiServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/ApiServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/config/CacheConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/config/CacheConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/config/RedisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/controller/PasteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/controller/PasteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/model/Paste.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/model/Paste.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/service/CacheService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/service/CacheService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/service/PasteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/service/PasteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/service/impl/RedisCacheService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pastebin/service/api/service/impl/RedisCacheService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/pastebin/service/api/config/TestRedisConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/pastebin/service/api/config/TestRedisConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/pastebin/service/api/controller/PasteControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/pastebin/service/api/controller/PasteControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/pastebin/service/api/service/PasteServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/pastebin/service/api/service/PasteServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application-test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application-test.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2jQNTXsj4eDkiEvoecexQxWdBYQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17011.79" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17011.79" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7f11c363-2ab5-4850-ac6d-c8c599d27e02" name="Changes" comment="" />
+      <created>1721315353880</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1721315353880</updated>
+      <workItem from="1722099227657" duration="18000" />
+    </task>
+    <servers />
+  </component>
+</project>

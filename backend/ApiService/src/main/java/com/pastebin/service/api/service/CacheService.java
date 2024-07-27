@@ -1,10 +1,8 @@
 package com.pastebin.service.api.service;
 
-import com.pastebin.service.api.model.Paste;
-
 import java.util.concurrent.TimeUnit;
 
 public interface CacheService {
-    void set(String key, Paste paste, long expirationTime, TimeUnit timeUnit);
-    Paste get(String key);
+    <T> void set(String key, T value, long expirationTime, TimeUnit timeUnit);
+    <T> T get(String key, Class<T> type);
 }

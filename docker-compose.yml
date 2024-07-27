@@ -24,18 +24,20 @@ services:
       - db
       - minio
       - redis
+      - metrics-service
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/pastebin
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
       - HASH_GENERATOR_URL=http://hash-generator:8080/generate-hash
       - MINIO_URL=http://minio:9000
       - MINIO_ACCESS_KEY=minioadmin
       - MINIO_SECRET_KEY=minioadmin
       - MINIO_BUCKET_NAME=pastebin
-      - TERM=xterm-256color
       - SPRING_REDIS_HOST=redis
+      - METRICS_SERVICE_URL=http://metrics-service:8081
     tty: true
     networks:
       - pastebin-network
