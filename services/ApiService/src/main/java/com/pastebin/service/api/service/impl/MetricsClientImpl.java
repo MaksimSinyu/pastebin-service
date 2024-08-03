@@ -20,7 +20,7 @@ public class MetricsClientImpl implements MetricsClient {
     @Override
     public void incrementPasteCreated() {
         try {
-            restTemplate.postForObject(metricsServiceUrl + "/metrics/paste-created", null, Void.class);
+            restTemplate.postForObject(metricsServiceUrl + "/api/v1/metrics/paste-created", null, Void.class);
         } catch (Exception e) {
             System.err.println("Error sending paste created metric: " + e.getMessage());
         }
@@ -28,6 +28,6 @@ public class MetricsClientImpl implements MetricsClient {
 
     @Override
     public void incrementPasteViewed() {
-        restTemplate.postForObject(metricsServiceUrl + "/metrics/paste-viewed", null, Void.class);
+        restTemplate.postForObject(metricsServiceUrl + "/api/v1/metrics/paste-viewed", null, Void.class);
     }
 }

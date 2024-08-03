@@ -32,13 +32,10 @@ public class PasteController {
 
     @GetMapping("/{hash}")
     public ResponseEntity<Paste> getPaste(@PathVariable String hash) {
-        log.info("Fetching paste with hash: {}", hash);
         try {
             Paste paste = pasteService.getPaste(hash);
-            log.info("Paste found: {}", paste);
             return ResponseEntity.ok(paste);
         } catch (Exception e) {
-            log.error("Error fetching paste with hash: {}", hash, e);
             return ResponseEntity.notFound().build();
         }
     }

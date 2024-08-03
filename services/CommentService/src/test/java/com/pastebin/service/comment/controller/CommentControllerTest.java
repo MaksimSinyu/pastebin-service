@@ -8,12 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -34,7 +33,7 @@ class CommentControllerTest {
 
     @Test
     void createComment_ShouldReturnCreatedComment() throws Exception {
-        String pasteHash = "testHash";
+        String pasteHash = "testPasteHash";
         CommentRequest request = new CommentRequest();
         request.setContent("Test content");
         request.setAuthor("Test author");
@@ -45,8 +44,7 @@ class CommentControllerTest {
         createdComment.setContent(request.getContent());
         createdComment.setAuthor(request.getAuthor());
 
-        when(commentService.createComment(eq(pasteHash), eq(request.getContent()), eq(request.getAuthor())))
-                .thenReturn(createdComment);
+        when(commentService.createComment(eq(pasteHash), eq(request))).thenReturn(createdComment);
 
         mockMvc.perform(post("/api/v1/comments/{pasteHash}", pasteHash)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -59,69 +57,33 @@ class CommentControllerTest {
     }
 
     @Test
-    void getComment_ShouldReturnComment() throws Exception {
-        Long commentId = 1L;
-        Comment comment = new Comment();
-        comment.setId(commentId);
-        comment.setContent("Test content");
-        comment.setAuthor("Test author");
+    void getCommentsByPasteHash_ShouldReturnListOfComments() throws Exception {
+        String pasteHash = "testPasteHash";
+        Comment comment1 = new Comment();
+        comment1.setId(1L);
+        comment1.setPasteHash(pasteHash);
+        comment1.setContent("Comment 1");
+        comment1.setAuthor("Author 1");
 
-        when(commentService.getComment(commentId)).thenReturn(comment);
+        Comment comment2 = new Comment();
+        comment2.setId(2L);
+        comment2.setPasteHash(pasteHash);
+        comment2.setContent("Comment 2");
+        comment2.setAuthor("Author 2");
 
-        mockMvc.perform(get("/api/v1/comments/{id}", commentId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(comment.getId()))
-                .andExpect(jsonPath("$.content").value(comment.getContent()))
-                .andExpect(jsonPath("$.author").value(comment.getAuthor()));
-    }
+        List<Comment> comments = Arrays.asList(comment1, comment2);
 
-    @Test
-    void updateComment_ShouldReturnUpdatedComment() throws Exception {
-        Long commentId = 1L;
-        CommentRequest request = new CommentRequest();
-        request.setContent("Updated content");
-
-        Comment updatedComment = new Comment();
-        updatedComment.setId(commentId);
-        updatedComment.setContent(request.getContent());
-
-        when(commentService.updateComment(eq(commentId), eq(request.getContent())))
-                .thenReturn(updatedComment);
-
-        mockMvc.perform(put("/api/v1/comments/{id}", commentId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(updatedComment.getId()))
-                .andExpect(jsonPath("$.content").value(updatedComment.getContent()));
-    }
-
-    @Test
-    void deleteComment_ShouldReturnNoContent() throws Exception {
-        Long commentId = 1L;
-
-        mockMvc.perform(delete("/api/v1/comments/{id}", commentId))
-                .andExpect(status().isNoContent());
-    }
-
-    @Test
-    void getCommentsForPaste_ShouldReturnPageOfComments() throws Exception {
-        String pasteHash = "testHash";
-        Comment comment = new Comment();
-        comment.setId(1L);
-        comment.setPasteHash(pasteHash);
-        comment.setContent("Test content");
-        comment.setAuthor("Test author");
-
-        Page<Comment> commentPage = new PageImpl<>(Collections.singletonList(comment));
-
-        when(commentService.getCommentsForPaste(eq(pasteHash), any())).thenReturn(commentPage);
+        when(commentService.getCommentsByPasteHash(pasteHash)).thenReturn(comments);
 
         mockMvc.perform(get("/api/v1/comments/paste/{pasteHash}", pasteHash))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].id").value(comment.getId()))
-                .andExpect(jsonPath("$.content[0].pasteHash").value(comment.getPasteHash()))
-                .andExpect(jsonPath("$.content[0].content").value(comment.getContent()))
-                .andExpect(jsonPath("$.content[0].author").value(comment.getAuthor()));
+                .andExpect(jsonPath("$[0].id").value(comment1.getId()))
+                .andExpect(jsonPath("$[0].pasteHash").value(comment1.getPasteHash()))
+                .andExpect(jsonPath("$[0].content").value(comment1.getContent()))
+                .andExpect(jsonPath("$[0].author").value(comment1.getAuthor()))
+                .andExpect(jsonPath("$[1].id").value(comment2.getId()))
+                .andExpect(jsonPath("$[1].pasteHash").value(comment2.getPasteHash()))
+                .andExpect(jsonPath("$[1].content").value(comment2.getContent()))
+                .andExpect(jsonPath("$[1].author").value(comment2.getAuthor()));
     }
 }

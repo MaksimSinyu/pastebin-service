@@ -1,12 +1,12 @@
 package com.pastebin.service.comment.model;
 
-import com.pastebin.service.comment.converter.JodaDateTimeConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.joda.time.DateTime;
+
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -19,13 +19,12 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String pasteHash;
+
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    private String pasteHash;
-
-    @Convert(converter = JodaDateTimeConverter.class)
-    private DateTime createdAt;
-
     private String author;
+
+    private LocalDateTime createdAt;
 }

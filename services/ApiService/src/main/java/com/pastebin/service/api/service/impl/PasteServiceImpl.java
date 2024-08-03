@@ -39,11 +39,9 @@ public class PasteServiceImpl implements PasteService {
 
     @Override
     public Paste getPaste(String hash) {
-        log.info("Fetching paste with hash: {}", hash);
         metricsClient.incrementPasteViewed();
         Paste cachedPaste = cacheService.get(hash, Paste.class);
         if (cachedPaste != null) {
-            log.info("Paste found in cache: {}", cachedPaste);
             return cachedPaste;
         }
 
@@ -51,10 +49,8 @@ public class PasteServiceImpl implements PasteService {
             byte[] data = storageService.getObject(hash);
             Paste paste = new Paste(hash, new String(data, StandardCharsets.UTF_8));
             cacheService.set(hash, paste, 1, TimeUnit.HOURS);
-            log.info("Paste fetched from storage and cached: {}", paste);
             return paste;
         } catch (Exception e) {
-            log.error("Error fetching paste with hash: {}", hash, e);
             throw new PasteNotFoundException("Paste not found: " + hash);
         }
     }
