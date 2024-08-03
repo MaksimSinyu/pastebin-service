@@ -1,0 +1,19 @@
+server:
+  forward-headers-strategy: framework
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pastebin
+    username: user
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus

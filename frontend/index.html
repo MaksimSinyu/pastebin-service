@@ -40,28 +40,101 @@
         #nav a:hover {
             background: #666666;
         }
+        #comments {
+            margin-top: 20px;
+            padding: 10px;
+            background: #232323;
+        }
+        .comment {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-bottom: 1px solid #444;
+        }
     </style>
     <script>
+        const API_BASE_URL = 'http://localhost:3031/api/v1';
+
         function uploadContent() {
             var content = document.getElementById("content").value;
             if (!content.trim()) return;
 
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost/api/paste", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    window.location.href = "http://localhost/api/paste/" + response.hash;
-                } else {
-                    console.error("Failed to upload content:", xhr.status, xhr.responseText);
+            fetch(`${API_BASE_URL}/paste`,  {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data: content })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
-            };
-            xhr.onerror = function() {
-                console.error("Request error");
-            };
-            xhr.send(JSON.stringify({ data: content }));
+                return response.json();
+            })
+            .then(data => {
+                window.location.href = API_BASE_URL + "/paste/" + data.hash;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
+
+        function loadComments(pasteHash) {
+            fetch(`${API_BASE_URL}/comments/paste/${pasteHash}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(comments => {
+                displayComments(comments);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function addComment(pasteHash) {
+            var content = document.getElementById("commentContent").value;
+            var author = document.getElementById("commentAuthor").value;
+            if (!content.trim() || !author.trim()) return;
+
+            fetch(`${API_BASE_URL}/comments/${pasteHash}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: content, author: author })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(() => {
+                loadComments(pasteHash);
+                document.getElementById("commentContent").value = "";
+                document.getElementById("commentAuthor").value = "";
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Функция для отображения комментариев (нужно реализовать)
+        function displayComments(comments) {
+            const commentsDiv = document.getElementById('comments');
+            commentsDiv.innerHTML = '';
+            comments.forEach(comment => {
+                const commentElem = document.createElement('div');
+                commentElem.className = 'comment';
+                commentElem.innerHTML = `<strong>${comment.author}</strong>: ${comment.content}`;
+                commentsDiv.appendChild(commentElem);
+            });
+        }
+
     </script>
 </head>
 <body>
@@ -70,5 +143,11 @@
         <a href="#" target="_blank">[Help]</a>
     </div>
     <textarea id="content" placeholder="Paste your text here..."></textarea>
+    <div id="comments"></div>
+    <div id="addComment">
+        <input type="text" id="commentAuthor" placeholder="Your name">
+        <textarea id="commentContent" placeholder="Your comment"></textarea>
+        <button onclick="addComment(pasteHash)">Add Comment</button>
+    </div>
 </body>
 </html>

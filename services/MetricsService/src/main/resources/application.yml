@@ -1,0 +1,20 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    prometheus:
+      enabled: true
+
+server:
+  forward-headers-strategy: framework
+  port: 8081
+
+logging:
+  level:
+    com.pastebin.service.api: DEBUG
