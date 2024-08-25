@@ -85,6 +85,7 @@ Use the `deploy.sh` script to build and run the project:
 
 ```sh
 ./scripts/deploy.sh development
+```
 
 This script will generate the appropriate configuration, build the Docker images, and start the services using Docker Compose.
 
@@ -93,4 +94,4 @@ Use the same `deploy.sh` script with different environment arguments:
 
 ```sh
 ./scripts/deploy.sh production
-
+```
