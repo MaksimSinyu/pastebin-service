@@ -1,0 +1,30 @@
+services:
+  api_gateway:
+    port: 8080
+  api_service:
+    port: 8080
+  hash_generator:
+    port: 8080
+  metrics_service:
+    port: 8081
+  comment_service:
+    port: 8082
+
+database:
+  host: db
+  port: 5432
+  name: pastebin
+  user: user
+  password: password
+
+minio:
+  host: minio
+  port: 9000
+  console_port: 9001
+  access_key: minioadmin
+  secret_key: minioadmin
+  bucket_name: pastebin
+
+redis:
+  host: redis
+  port: 6379

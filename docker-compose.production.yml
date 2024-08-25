@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+
+  api-service:
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+
+  comment-service:
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+
+  metrics-service:
+    environment:
+      - SPRING_PROFILES_ACTIVE=production

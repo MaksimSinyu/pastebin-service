@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    environment:
+      - SPRING_PROFILES_ACTIVE=test
+
+  api-service:
+    environment:
+      - SPRING_PROFILES_ACTIVE=test
+
+  comment-service:
+    environment:
+      - SPRING_PROFILES_ACTIVE=test
+
+  metrics-service:
+    environment:
+      - SPRING_PROFILES_ACTIVE=test
